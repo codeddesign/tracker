@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // Commands\Inspire::class,
+
     ];
 
     /**
@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+
     }
 
     /**
@@ -35,8 +34,6 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        // $this->command('build {project}', function ($project) {
-        //     $this->info('Building project...');
-        // });
+
     }
 }
