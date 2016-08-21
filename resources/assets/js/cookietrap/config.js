@@ -1,5 +1,5 @@
 export default {
-    app_path: 'http://tracker.dev',
-    cookie_days: 365 * 100,
-    cookie_name: 'cookietrap'
+    app_path: 'http://tracker.dev/track/',
+    cookie_years: 5,
+    cookie_name: 'stattrack'
 };

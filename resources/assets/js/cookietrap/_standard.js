@@ -4,7 +4,7 @@ export default {
     create: function(value) {
         const date = new Date();
 
-        date.setTime(date.getTime() + (config.cookie_days * 24 * 60 * 60 * 1000));
+        date.setTime(date.getTime() + (config.cookie_years * 24 * 60 * 60 * 1000 * 365));
 
         document.cookie = config.cookie_name + "=" + value + '; expires=' + date.toGMTString() + "; path=/";
     },
