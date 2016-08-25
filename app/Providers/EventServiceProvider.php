@@ -15,13 +15,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\Visitor\ViewedPage' => [
             'App\Listeners\Visitor\SaveVisit',
+            'App\Listeners\Visitor\SaveOldId',
         ],
     ];
 
     /**
      * Register any events for your application.
-     *
-     * @return void
      */
     public function boot()
     {

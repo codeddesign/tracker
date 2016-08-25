@@ -1,5 +1,8 @@
 import config from './config';
+import sql from './_sql.js';
+import storage from './_storage';
 import standard from './_standard';
+import imageCookie from './_image_cookie';
 
 let querifyObject = function(data) {
     let list = [];
@@ -15,19 +18,35 @@ let querifyObject = function(data) {
     return '?' + list.join('&');
 }
 
-export function track(endpoint, data = {}) {
-    let image = new Image;
+let track = function(endpoint = '', data = {}, callback = function() {}) {
+    let image = new Image,
+        app_path = config.app_path.replace(new RegExp('[\/]+$'), '');
 
     /** add unique id */
-    data.u = standard.read();
+    data.u = storage.read() || '';
 
-    image.src = config.app_path + endpoint + querifyObject(data);
+    image.crossOrigin = 'use-credentials';
+    image.onload = function() {
+        this.u = imageCookie(this);
+
+        sql.create(this.u, true);
+        storage.create(this.u);
+        standard.create(this.u);
+
+        callback.call(this);
+    };
+
+    image.src = app_path + endpoint + querifyObject(data);
+}
+
+export function init(resolve) {
+    track('', {}, function() {
+        resolve(this.u);
+    });
 }
 
 export function visit() {
-    let data = {
+    track('/visit', {
         referer: escape(document.referrer)
-    };
-
-    track('visit', data);
+    });
 }

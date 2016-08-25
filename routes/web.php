@@ -1,10 +1,9 @@
 <?php
 
-Route::group(['prefix' => '/track', 'middleware' => 'cors'], function() {
-    Route::get('/visit', 'TrackerController@visit')
-        ->middleware('track-pixel');
+Route::group(['prefix' => '/track', 'middleware' => 'pixel'], function() {
+    Route::get('/visit', 'TrackerController@visit');
 
-    Route::get('/unique', 'TrackerController@unique');
+    Route::get('/', 'TrackerController@cache');
 });
 
 Route::get('/', function () {

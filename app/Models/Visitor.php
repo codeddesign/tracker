@@ -22,9 +22,9 @@ class Visitor extends Model
      */
     public static function add()
     {
-        $unique_id = (string) (new UniqueCode());
+        $unique_id = (string) (new UniqueCode())->generate();
 
-        if (!self::whereUniqueId($unique_id)->first()) {
+        if (!self::byUniqueId($unique_id)) {
             (new self())->create([
                 'unique_id' => $unique_id,
             ]);
@@ -33,5 +33,17 @@ class Visitor extends Model
         }
 
         return self::add();
+    }
+
+    /**
+     * Get Visitor by it's unique id.
+     *
+     * @param string $uniqueId
+     *
+     * @return Visitor|null
+     */
+    public static function byUniqueId($uniqueId)
+    {
+        return self::whereUniqueId($uniqueId)->first();
     }
 }

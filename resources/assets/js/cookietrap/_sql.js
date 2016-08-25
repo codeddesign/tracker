@@ -24,24 +24,28 @@ export default {
         this.connection = openDatabase(this.db.name(), '1.0', '', this.db.size);
 
         this.connection.transaction(function(tn) {
-            tn.executeSql('CREATE TABLE IF NOT EXISTS `' + this.db.table_name + '` (' + this.db.table_field + ')');
+            tn.executeSql(`CREATE TABLE IF NOT EXISTS ${this.db.table_name} ('${this.db.table_field}')`);
         }.bind(this));
 
         return true;
     },
 
-    create: function(value) {
+    create: function(value, mustClear = false) {
         if (!this.hasSupport()) {
             return false;
         }
 
         this.read(function(cookie_value) {
-            if (cookie_value) {
+            if (cookie_value && !mustClear) {
                 return false;
             }
 
             this.connection.transaction(function(tn) {
-                tn.executeSql('INSERT INTO `' + this.db.table_name + '` (' + this.db.table_field + ') VALUES ("' + value + '")');
+                if (mustClear) {
+                    tn.executeSql(`delete from ${this.db.table_name}`);
+                }
+
+                tn.executeSql(`INSERT INTO ${this.db.table_name} ('${this.db.table_field}') VALUES ('${value}')`);
             }.bind(this));
         }.bind(this));
     },
@@ -52,7 +56,7 @@ export default {
         }
 
         this.connection.transaction(function(tn) {
-            tn.executeSql('SELECT `' + this.db.table_field + '` from `' + this.db.table_name + '`', [], function(tn, results) {
+            tn.executeSql(`SELECT ${this.db.table_field} from ${this.db.table_name}`, [], function(tn, results) {
                 if (results.rows.length) {
                     cb(results.rows[0][this.db.table_field]);
 

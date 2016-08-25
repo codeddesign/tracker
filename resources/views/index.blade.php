@@ -7,7 +7,7 @@
 
     <body>
 
-        <script src="/js/trap.js"></script>
+        <script src="/js/u.js"></script>
     </body>
 
 </html>
